@@ -1,0 +1,129 @@
+---
+import { Image } from "astro:assets";
+import emblem from "../assets/brand/emblem.png";
+import { company, nav, mapDirections } from "../data/site";
+import { services } from "../data/services";
+import Icon from "./Icon.astro";
+
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href="/" class="f-brand" aria-label="Powergeekz Engineering, home">
+          <Image src={emblem} alt="" width={88} height={88} class="f-brand__mark" />
+          <span class="f-brand__name">Powergeekz Engineering</span>
+        </a>
+        <p>Solar, UPS and backup power systems, engineered and maintained across Kenya since {company.founded}.</p>
+        <div class="f-social">
+          <a href={company.social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={17} /></a>
+          <a href={company.social.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="tiktok" size={17} /></a>
+          <a href={company.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" size={17} /></a>
+        </div>
+      </div>
+
+      <div class="f-col">
+        <h2 class="f-head">Company</h2>
+        <ul role="list">
+          <li><a href="/">Home</a></li>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h2 class="f-head">Services</h2>
+        <ul role="list">
+          {services.map((s) => <li><a href={`/services.html#${s.id}`}>{s.title}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="f-col">
+        <h2 class="f-head">Contact</h2>
+        <ul role="list" class="f-contact">
+          {company.phones.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          <li><a href={mapDirections} target="_blank" rel="noopener">{company.address.line}, {company.address.city}</a></li>
+          <li class="f-hours">Mon – Fri 8:00 – 17:30<br />Sat 9:00 – 13:00</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__base">
+      <p>© <span data-year>{year}</span> {company.name}. All rights reserved.</p>
+      <a href="#main" class="f-top">Back to top <Icon name="arrow-up-right" size={14} /></a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--night);
+    color: var(--night-muted);
+    padding-top: clamp(64px, 8vw, 104px);
+    font-size: 0.94rem;
+    border-top: 1px solid var(--night-line);
+  }
+  .site-footer__grid {
+    display: grid;
+    gap: 48px 32px;
+    grid-template-columns: 1fr;
+    padding-bottom: clamp(48px, 6vw, 80px);
+  }
+  @media (min-width: 640px) {
+    .site-footer__grid { grid-template-columns: 1fr 1fr; }
+    .site-footer__brand { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1024px) {
+    .site-footer__grid { grid-template-columns: 1.5fr 0.8fr 1.1fr 1.1fr; }
+    .site-footer__brand { grid-column: auto; }
+  }
+  .site-footer__brand p { max-width: 34ch; margin: 22px 0 26px; line-height: 1.6; }
+  .f-brand { display: inline-flex; align-items: center; gap: 12px; }
+  .f-brand__mark { width: 44px; height: 44px; border-radius: 50%; }
+  .f-brand__name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: #fff;
+  }
+  .f-social { display: flex; gap: 10px; }
+  .f-social a {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--night-line);
+    color: #fff;
+    transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .f-social a:hover { background: var(--blue); border-color: var(--blue); }
+  .f-head {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .f-col ul { display: grid; gap: 12px; }
+  .f-col a { transition: color 0.25s var(--ease); }
+  .f-col a:hover { color: #fff; }
+  .f-contact a { overflow-wrap: anywhere; }
+  .f-hours { line-height: 1.7; }
+  .site-footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding: 26px 0 max(26px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--night-line);
+    font-size: 0.85rem;
+  }
+  .f-top { display: inline-flex; align-items: center; gap: 6px; color: #fff; }
+  .f-top :global(svg) { transform: rotate(-45deg); }
+</style>

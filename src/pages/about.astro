@@ -1,0 +1,266 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import { company, sectors } from "../data/site";
+import { photo } from "../data/photos";
+
+const values = [
+  { title: "Workmanship", text: "Installations finished to a standard we are prepared to maintain for a decade. No shortcuts behind the panel." },
+  { title: "Integrity", text: "Honest assessments, transparent pricing and genuine equipment. If a system is not needed, we say so." },
+  { title: "Reliability", text: "We turn up when it matters, because our clients run theatres, servers and banking halls." },
+  { title: "Current technology", text: "We track the equipment market closely and specify what is proven, not what is fashionable." },
+  { title: "Sustainability", text: "Solar and storage at the centre of the business, reducing the fuel and grid dependence of the sites we serve." },
+  { title: "Long relationships", text: "Most of our work comes from clients who have been with us for years. We intend to keep it that way." },
+];
+
+const record = [
+  { icon: "shield", title: "Healthcare", text: "Hospitals and clinics across Kenya, including a long-term maintenance contract covering Gertrude's Children's Hospital's network of seventeen sites." },
+  { icon: "server", title: "Banking", text: "UPS battery replacement and inverter installations across branch networks for ABC Bank and Musoni Kenya." },
+  { icon: "layers", title: "Broadcast", text: "Critical power backup for Media Max Networks, keeping broadcast operations on air." },
+  { icon: "clipboard", title: "Government", text: "UPS installation and commissioning for the Ministry of Agriculture's KAPP programme data infrastructure." },
+  { icon: "sun", title: "Solar", text: "From residential rooftops to commercial arrays, borehole solarisation and solar water heating at remote camps." },
+  { icon: "droplet", title: "Conservation", text: "Solar installation for BirdLife International's Kenya office, in support of its sustainability commitments." },
+];
+---
+<Base
+  title="About"
+  description="Powergeekz Engineering has designed, installed and maintained solar, UPS and backup power systems across Kenya since 2013. Our story, approach, leadership and track record."
+  path="/about.html"
+>
+  <PageHero
+    eyebrow="About"
+    title="Engineering power since 2013."
+    lead="A Nairobi engineering firm that designs, installs and maintains the power systems hospitals, banks, businesses and homes depend on."
+  />
+
+  <!-- ── Story ────────────────────────────────────────── -->
+  <section class="section story">
+    <div class="container story__grid">
+      <div class="story__media" data-reveal="scale">
+        <div class="frame story__main">
+          <Image src={photo("pw12.jpg")} alt="Powergeekz engineers installing solar on a commercial roof" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 46vw, 100vw" />
+        </div>
+        <div class="frame story__inset">
+          <Image src={photo("pic10.jpg")} alt="Engineer in a hard hat servicing a wall-mounted power unit" widths={[320, 480]} sizes="220px" />
+        </div>
+      </div>
+      <div class="story__copy">
+        <span class="eyebrow" data-reveal>Our story</span>
+        <h2 class="h2" data-reveal style="--d:60ms">We take a client's requirement and turn it into a system that outperforms it.</h2>
+        <div class="story__text" data-reveal style="--d:120ms">
+          <p>
+            Powergeekz Engineering was founded in Nairobi in {company.founded} to do one thing well: keep power on for
+            the people who cannot do without it. Our work spans power backup and protection, solar generation and the
+            storage that ties them together.
+          </p>
+          <p>
+            We are authorised dealers for most of the equipment we supply, which lets us guarantee genuine products and
+            honour manufacturer warranties locally. The same engineers who design a system install it, commission it and
+            maintain it, whether the site is a private home or a three-hundred-bed hospital.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Mission & vision ─────────────────────────────── -->
+  <section class="section section--night mv">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow mv__glow" aria-hidden="true"></div>
+    <div class="container mv__grid">
+      <div class="mv__item" data-reveal>
+        <span class="eyebrow">Mission</span>
+        <p class="mv__text">To deliver the most dependable power backup solutions available, installed to the highest standard and supported long after handover.</p>
+      </div>
+      <div class="mv__item" data-reveal style="--d:120ms">
+        <span class="eyebrow">Vision</span>
+        <p class="mv__text">To be the power engineering partner of choice in East and Central Africa, known for current technology, fair pricing and after-sales service that does not lapse.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Values ───────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">What we stand for</span>
+        <h2 class="h2">Principles that show up in the work.</h2>
+      </div>
+      <ol role="list" class="values">
+        {values.map((v, i) => (
+          <li data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <span class="values__num">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="h3">{v.title}</h3>
+            <p class="muted">{v.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Leadership ───────────────────────────────────── -->
+  <section class="section section--alt" id="team">
+    <div class="container lead-grid">
+      <div class="frame lead-grid__photo" data-reveal="scale">
+        <Image src={photo("img26.jpg")} alt="Joseph Kariuki Mburu, Founder and Director, on a solar installation" widths={[480, 720, 960]} sizes="(min-width: 1024px) 38vw, 100vw" />
+      </div>
+      <div class="lead-grid__copy">
+        <span class="eyebrow" data-reveal>Leadership</span>
+        <h2 class="h2" data-reveal style="--d:60ms">Joseph Kariuki Mburu</h2>
+        <p class="lead-grid__role" data-reveal style="--d:100ms">Founder & Director</p>
+        <p class="lead" data-reveal style="--d:140ms">
+          A telecommunications engineer by training with more than fourteen years in power systems across Kenya and
+          East Africa. Joseph leads system design and oversees every project from survey to commissioning.
+        </p>
+        <ul role="list" class="lead-grid__creds" data-reveal style="--d:180ms">
+          <li><Icon name="check" size={17} />BSc Telecommunications Engineering (MUK)</li>
+          <li><Icon name="check" size={17} />Diploma in Project Management</li>
+          <li><Icon name="check" size={17} />14+ years in power systems engineering</li>
+        </ul>
+        <p class="muted" data-reveal style="--d:220ms">
+          He is supported by a technical director, project managers and a team of qualified engineers and technicians,
+          with oversight from an experienced board of directors.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Track record ─────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" data-reveal>
+          <span class="eyebrow">Track record</span>
+          <h2 class="h2">Trusted where failure is expensive.</h2>
+        </div>
+        <div class="stack" data-reveal style="--d:100ms">
+          <p class="lead">From clinical networks to national programmes. The portfolio carries the detail.</p>
+          <a href="/portfolio.html" class="link-arrow">View the portfolio <Icon name="arrow-up-right" /></a>
+        </div>
+      </div>
+      <ul role="list" class="record">
+        {record.map((r, i) => (
+          <li data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <span class="record__icon"><Icon name={r.icon} size={20} /></span>
+            <h3 class="h3">{r.title}</h3>
+            <p class="muted">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Coverage ─────────────────────────────────────── -->
+  <section class="section section--tight coverage">
+    <div class="container coverage__grid">
+      <div class="stack" data-reveal>
+        <span class="eyebrow">Coverage</span>
+        <h2 class="h2">Nairobi-based. Working nationwide.</h2>
+        <p class="lead">From Nairobi to Mombasa, Kisumu, Meru, Laikipia and the Maasai Mara, and on request across East and Central Africa.</p>
+      </div>
+      <ul role="list" class="coverage__sectors" data-reveal style="--d:100ms">
+        {sectors.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand eyebrow="Work with us" title="Let's look at your site." />
+</Base>
+
+<style>
+  .stack { display: grid; gap: 18px; align-content: start; justify-items: start; }
+
+  .story__grid { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 1024px) { .story__grid { grid-template-columns: 1fr 1fr; gap: 88px; } }
+  .story__media { position: relative; padding-bottom: 40px; }
+  @media (min-width: 640px) { .story__media { padding: 0 0 56px 56px; } }
+  .story__main { aspect-ratio: 4 / 3.4; box-shadow: var(--shadow); }
+  .story__inset {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 38%;
+    aspect-ratio: 3 / 4;
+    border: 6px solid #fff;
+    box-shadow: var(--shadow);
+  }
+  .story__copy { display: grid; gap: 24px; justify-items: start; }
+  .story__copy .h2 { font-size: clamp(1.8rem, 3.2vw, 2.6rem); }
+  .story__text { display: grid; gap: 18px; color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 60ch; }
+
+  .mv__glow { top: -300px; left: -200px; }
+  .mv__grid { display: grid; gap: 56px; }
+  @media (min-width: 900px) { .mv__grid { grid-template-columns: 1fr 1fr; gap: 88px; } }
+  .mv__item { display: grid; gap: 22px; align-content: start; padding-top: 28px; border-top: 1px solid var(--night-line); }
+  .mv__text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+    line-height: 1.24;
+    letter-spacing: -0.028em;
+    font-weight: 500;
+    color: #fff;
+    text-wrap: pretty;
+  }
+
+  .values { display: grid; border-top: 1px solid var(--line); }
+  @media (min-width: 720px) { .values { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .values { grid-template-columns: repeat(3, 1fr); } }
+  .values li {
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 720px) { .values li { padding: 36px 36px 36px 0; } }
+  .values__num { font-size: 0.8rem; font-weight: 500; color: var(--blue); font-variant-numeric: tabular-nums; margin-bottom: 8px; }
+
+  .lead-grid { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 1024px) { .lead-grid { grid-template-columns: 0.8fr 1fr; gap: 88px; } }
+  .lead-grid__photo { aspect-ratio: 4 / 5; box-shadow: var(--shadow); }
+  @media (max-width: 1023px) { .lead-grid__photo { max-width: 520px; } }
+  .lead-grid__copy { display: grid; gap: 20px; justify-items: start; }
+  .lead-grid__role {
+    margin-top: -10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .lead-grid__creds { display: grid; gap: 12px; width: 100%; padding: 22px 0; border-block: 1px solid var(--line); }
+  .lead-grid__creds li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink); font-weight: 450; }
+  .lead-grid__creds :global(svg) { flex: none; margin-top: 3px; color: var(--blue); }
+
+  .record { display: grid; gap: 16px; }
+  @media (min-width: 720px) { .record { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .record { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+  .record li {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    transition: border-color 0.35s var(--ease), box-shadow 0.45s var(--ease);
+  }
+  .record li:hover { border-color: var(--line-strong); box-shadow: var(--shadow); }
+  .record__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+
+  .coverage { border-top: 1px solid var(--line); }
+  .coverage__grid { display: grid; gap: 48px; }
+  @media (min-width: 1024px) { .coverage__grid { grid-template-columns: 1fr 1fr; gap: 88px; align-items: center; } }
+  .coverage__sectors { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+  .coverage__sectors li { padding: 15px 0; border-bottom: 1px solid var(--line); font-weight: 500; color: var(--ink); }
+</style>

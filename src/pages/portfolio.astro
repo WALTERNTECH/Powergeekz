@@ -1,0 +1,253 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import { projects, categories, engagements, gertrudes } from "../data/projects";
+import { photo } from "../data/photos";
+
+const counts = Object.fromEntries(categories.map((c) => [c.id, projects.filter((p) => p.category === c.id).length]));
+const label = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+---
+<Base
+  title="Portfolio"
+  description="Selected solar, inverter, lithium storage, UPS and water heating projects by Powergeekz Engineering for hospitals, banks, malls, manufacturers and homes across Kenya."
+  path="/portfolio.html"
+>
+  <PageHero
+    eyebrow="Portfolio"
+    title="Systems in service across Kenya."
+    lead="Hospitals, banks, factories, malls, safari camps and private homes. A selection of systems we designed, installed and continue to look after."
+  />
+
+  <!-- ── Flagship ─────────────────────────────────────── -->
+  <section class="section flagship">
+    <div class="container flagship__grid">
+      <div class="flagship__media" data-reveal="scale">
+        <div class="frame flagship__frame">
+          <div class="flagship__parallax" data-parallax="0.05">
+            <Image src={photo("pw17.jpg")} alt="Grid-tie solar array with walkways at Gertrude's Pangani clinic" widths={[640, 960, 1280, 1504]} sizes="(min-width: 1024px) 55vw, 100vw" />
+          </div>
+        </div>
+      </div>
+      <div class="flagship__copy">
+        <span class="eyebrow" data-reveal>Long-term partnership</span>
+        <h2 class="h2" data-reveal style="--d:60ms">Gertrude's Children's Hospital</h2>
+        <p class="lead" data-reveal style="--d:120ms">
+          One of Kenya's largest paediatric networks. We look after the power behind it: UPS and parallel inverter
+          systems at the Muthaiga hospital and its clinics, grid-tie solar at Pangani and Komarock, and lithium storage
+          in Kisumu, all under a long-term preventive maintenance contract.
+        </p>
+        <ul role="list" class="flagship__scope" data-reveal style="--d:160ms">
+          {gertrudes.scope.map((s) => <li class="tag">{s}</li>)}
+        </ul>
+        <div class="flagship__sites" data-reveal style="--d:200ms">
+          <p class="flagship__sites-title">Sites under our care</p>
+          <ul role="list">{gertrudes.sites.map((s) => <li>{s}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Project index ────────────────────────────────── -->
+  <section class="section section--alt" id="projects">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" data-reveal>
+          <span class="eyebrow">Project index</span>
+          <h2 class="h2">Selected installations.</h2>
+        </div>
+        <p class="lead" data-reveal style="--d:100ms">Filter by discipline. Capacities are as installed; most of these systems remain under our maintenance.</p>
+      </div>
+
+      <div class="filters" role="toolbar" aria-label="Filter projects" data-reveal>
+        <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All <span>{projects.length}</span></button>
+        {categories.map((c) => (
+          <button type="button" class="filter" data-filter={c.id} aria-pressed="false">{c.label} <span>{counts[c.id]}</span></button>
+        ))}
+      </div>
+
+      <ul role="list" class="projects" data-projects>
+        {projects.map((p, i) => (
+          <li class="project" data-category={p.category} data-reveal style={`--d:${(i % 3) * 70}ms`}>
+            <div class="frame frame--hover project__media">
+              <Image src={photo(p.image)} alt={`${p.title}, ${p.location}`} widths={[400, 600, 800]} sizes="(min-width: 1024px) 31vw, (min-width: 640px) 48vw, 100vw" />
+              <span class="project__cat">{label[p.category]}</span>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">{p.title}</h3>
+              <p class="project__where">
+                {p.client && <span class="project__client">{p.client}</span>}
+                <span><Icon name="pin" size={14} />{p.location}</span>
+              </p>
+              <p class="muted project__summary">{p.summary}</p>
+              <div class="project__foot">
+                <span>{p.sector}</span>
+                {p.capacity && <span class="project__cap">{p.capacity}</span>}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="projects__empty" data-empty hidden>No projects in this category yet.</p>
+    </div>
+  </section>
+
+  <!-- ── Other engagements ───────────────────────────── -->
+  <section class="section">
+    <div class="container engage">
+      <div class="stack" data-reveal>
+        <span class="eyebrow">Also trusted by</span>
+        <h2 class="h2">Banking, broadcast, government and conservation.</h2>
+      </div>
+      <ul role="list" class="engage__list">
+        {engagements.map((e, i) => (
+          <li data-reveal style={`--d:${i * 80}ms`}>
+            <span class="engage__sector">{e.sector}</span>
+            <h3 class="h3">{e.client}</h3>
+            <p class="muted">{e.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Your site could be next on this list." />
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+  const items = document.querySelectorAll<HTMLElement>("[data-projects] > li");
+  const empty = document.querySelector<HTMLElement>("[data-empty]");
+
+  buttons.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const f = btn.dataset.filter!;
+      buttons.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      let shown = 0;
+      items.forEach((item) => {
+        const match = f === "all" || item.dataset.category === f;
+        item.hidden = !match;
+        if (match) {
+          shown++;
+          item.classList.add("is-in");
+          item.animate([{ opacity: 0, transform: "translateY(12px)" }, { opacity: 1, transform: "none" }], {
+            duration: 450,
+            delay: Math.min(shown, 6) * 40,
+            easing: "cubic-bezier(.16,1,.3,1)",
+            fill: "backwards",
+          });
+        }
+      });
+      if (empty) empty.hidden = shown > 0;
+    }),
+  );
+</script>
+
+<style>
+  .stack { display: grid; gap: 18px; align-content: start; justify-items: start; }
+
+  .flagship__grid { display: grid; gap: 48px; align-items: center; }
+  @media (min-width: 1024px) { .flagship__grid { grid-template-columns: 1.15fr 1fr; gap: 80px; } }
+  .flagship__frame { aspect-ratio: 4 / 4.2; box-shadow: var(--shadow-lg); }
+  @media (max-width: 1023px) { .flagship__frame { aspect-ratio: 4 / 3; } }
+  .flagship__parallax { position: absolute; inset: -6% 0; }
+  .flagship__parallax :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .flagship__copy { display: grid; gap: 24px; justify-items: start; }
+  .flagship__scope { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flagship__sites { width: 100%; padding-top: 24px; border-top: 1px solid var(--line); }
+  .flagship__sites-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--subtle);
+    margin-bottom: 14px;
+  }
+  .flagship__sites ul { display: flex; flex-wrap: wrap; gap: 6px 0; }
+  .flagship__sites li { font-weight: 500; color: var(--ink); }
+  .flagship__sites li:not(:last-child)::after { content: "·"; margin: 0 10px; color: var(--subtle); }
+
+
+  .projects { display: grid; gap: 20px; }
+  @media (min-width: 640px) { .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .projects { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } }
+  .project {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: box-shadow 0.45s var(--ease), border-color 0.35s var(--ease);
+  }
+  .project[hidden] { display: none; }
+  .project:hover { box-shadow: var(--shadow); border-color: var(--line-strong); }
+  .project__media { aspect-ratio: 4 / 3; border-radius: 0; }
+  .project:hover .project__media :global(img) { transform: scale(1.035); }
+  .project__cat {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .project__body { display: grid; gap: 10px; align-content: start; padding: 22px 22px 20px; }
+  .project__title {
+    font-size: 1.12rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .project__where { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.88rem; color: var(--muted); }
+  .project__where span { display: inline-flex; align-items: center; gap: 5px; }
+  .project__client { color: var(--blue); font-weight: 500; }
+  .project__summary { font-size: 0.93rem; line-height: 1.6; }
+  .project__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.82rem;
+    color: var(--muted);
+    align-self: end;
+  }
+  .project__cap { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .projects__empty { padding: 40px 0; color: var(--muted); }
+
+  .engage { display: grid; gap: 48px; }
+  @media (min-width: 1024px) { .engage { grid-template-columns: 0.9fr 1.1fr; gap: 88px; } }
+  .engage__list { display: grid; border-top: 1px solid var(--line); }
+  .engage__list li {
+    display: grid;
+    gap: 8px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 640px) {
+    .engage__list li { grid-template-columns: 140px 1fr; column-gap: 28px; }
+    .engage__list li .muted { grid-column: 2; }
+  }
+  .engage__sector {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    padding-top: 6px;
+  }
+</style>

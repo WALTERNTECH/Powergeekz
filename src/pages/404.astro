@@ -1,0 +1,25 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import { cta } from "../data/site";
+---
+<Base title="Page not found" description="The page you were looking for could not be found." path="/404.html">
+  <section class="section nf">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="container nf__inner">
+      <span class="eyebrow">Error 404</span>
+      <h1 class="h1">This page is offline.</h1>
+      <p class="lead">The link may be out of date. Everything else is running.</p>
+      <div class="nf__actions">
+        <Button href="/">Back to home</Button>
+        <Button href={cta.href} variant="ghost" icon={false}>{cta.label}</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { isolation: isolate; overflow: hidden; min-height: 60vh; display: grid; align-items: center; }
+  .nf__inner { display: grid; gap: 22px; justify-items: start; }
+  .nf__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+</style>

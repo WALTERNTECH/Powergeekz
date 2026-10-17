@@ -1,0 +1,32 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+<section class="page-hero">
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow page-hero__glow" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
+    <span class="eyebrow" data-reveal>{eyebrow}</span>
+    <h1 class="h1" data-reveal style="--d:60ms" set:html={title} />
+    {lead && <p class="lead" data-reveal style="--d:120ms">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(56px, 9vw, 120px) 0 clamp(56px, 7vw, 96px);
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero__glow { top: -420px; left: 50%; margin-left: -360px; opacity: 0.8; }
+  .page-hero__inner { display: grid; gap: 24px; justify-items: start; }
+  .page-hero__inner .h1 { max-width: 16ch; }
+  .page-hero__inner .lead { max-width: 58ch; }
+</style>

@@ -1,0 +1,228 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PageHero from "../components/PageHero.astro";
+import Process from "../components/Process.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Icon from "../components/Icon.astro";
+import { services } from "../data/services";
+import { brands, sectors, cta } from "../data/site";
+import { photo } from "../data/photos";
+---
+<Base
+  title="Services"
+  description="Solar PV, hybrid inverters and lithium storage, UPS from 400 VA to 1 MVA, solar water heating, AVRs, batteries, CCTV and maintenance contracts across Kenya."
+  path="/services.html"
+>
+  <PageHero
+    eyebrow="Services"
+    title="Engineered for continuity."
+    lead="Generation, storage, protection and the maintenance that keeps them working, delivered by one engineering team. Every system starts with a survey and is supported for as long as it runs."
+  >
+    <nav class="svc-index" aria-label="Services on this page" data-reveal style="--d:180ms">
+      {services.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}
+    </nav>
+  </PageHero>
+
+  <section class="section svc-list">
+    <div class="container">
+      {services.map((s, i) => (
+        <article id={s.id} class={`svc ${i % 2 ? "svc--flip" : ""}`}>
+          <div class="svc__copy" data-reveal>
+            <div class="svc__meta">
+              <span class="svc__num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="svc__icon"><Icon name={s.icon} size={20} /></span>
+            </div>
+            <h2 class="svc__title">{s.title}</h2>
+            <p class="lead">{s.summary}</p>
+            <ul role="list" class="svc__scope">
+              {s.scope.map((item) => <li><Icon name="check" size={17} />{item}</li>)}
+            </ul>
+            {s.equipment && (
+              <p class="svc__equip"><span>Equipment</span>{s.equipment}</p>
+            )}
+            <a href={cta.href} class="link-arrow">Discuss your requirements <Icon name="arrow-up-right" /></a>
+          </div>
+          <div class="svc__visual" data-reveal="scale" style="--d:100ms">
+            {s.image ? (
+              <div class="frame svc__frame">
+                <Image src={photo(s.image)} alt={s.alt ?? ""} widths={[480, 720, 960, 1200]} sizes="(min-width: 1024px) 48vw, 100vw" />
+              </div>
+            ) : (
+              <div class="svc__panel">
+                <div class="bg-grid" aria-hidden="true"></div>
+                <span class="svc__panel-icon"><Icon name={s.icon} size={40} /></span>
+                <ul role="list">
+                  {s.scope.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div class="section--alt">
+    <Process />
+  </div>
+
+  <section class="section">
+    <div class="container sectors-brands">
+      <div data-reveal>
+        <span class="eyebrow">Who we serve</span>
+        <h2 class="h2 sb__title">Sectors where power is not optional.</h2>
+        <ul role="list" class="sectors">
+          {sectors.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div data-reveal style="--d:120ms">
+        <span class="eyebrow">Authorised supply</span>
+        <h2 class="h2 sb__title">Genuine equipment, full warranty.</h2>
+        <ul role="list" class="brand-grid">
+          {brands.map((b) => <li>{b}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    eyebrow="Next step"
+    title="Start with a site assessment."
+    text="We survey the site, measure the loads and return a written proposal with equipment, costs and timelines. There is no charge and no obligation."
+  />
+</Base>
+
+<style>
+  .svc-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .svc-index a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink-2);
+    transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+  .svc-index a:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+  .svc-list .container { display: grid; gap: clamp(72px, 10vw, 136px); }
+  .svc {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+    scroll-margin-top: calc(var(--header-h) + 24px);
+  }
+  @media (min-width: 1024px) {
+    .svc { grid-template-columns: 1fr 1fr; gap: 80px; }
+    .svc--flip .svc__copy { order: 2; }
+  }
+  .svc__copy { display: grid; gap: 22px; justify-items: start; }
+  .svc__meta { display: flex; align-items: center; gap: 14px; }
+  .svc__num { font-size: 0.82rem; font-weight: 500; color: var(--blue); font-variant-numeric: tabular-nums; }
+  .svc__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .svc__title { font-size: clamp(1.9rem, 3.4vw, 2.75rem); letter-spacing: -0.034em; }
+  .svc__scope {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    padding: 22px 0;
+    border-block: 1px solid var(--line);
+  }
+  @media (min-width: 640px) { .svc__scope { grid-template-columns: 1fr 1fr; gap: 14px 28px; } }
+  .svc__scope li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); line-height: 1.5; }
+  .svc__scope :global(svg) { flex: none; margin-top: 3px; color: var(--blue); }
+  .svc__equip { display: grid; gap: 4px; font-size: 0.95rem; color: var(--ink-2); }
+  .svc__equip span {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--subtle);
+  }
+  .svc__frame { aspect-ratio: 5 / 4; box-shadow: var(--shadow); }
+  .svc__panel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    aspect-ratio: 5 / 4;
+    display: grid;
+    align-content: space-between;
+    padding: clamp(28px, 4vw, 48px);
+    border-radius: var(--radius-lg);
+    background: var(--night);
+    color: #fff;
+  }
+  .svc__panel :global(.bg-grid) {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    -webkit-mask-image: radial-gradient(ellipse at 80% 0%, #000 10%, transparent 70%);
+    mask-image: radial-gradient(ellipse at 80% 0%, #000 10%, transparent 70%);
+  }
+  .svc__panel-icon {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    border-radius: 22px;
+    background: var(--blue);
+  }
+  .svc__panel ul { display: grid; gap: 4px; }
+  .svc__panel li {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .sectors-brands { display: grid; gap: 72px; }
+  @media (min-width: 1024px) { .sectors-brands { grid-template-columns: 1fr 1fr; gap: 88px; } }
+  .sectors-brands > div { display: grid; gap: 20px; align-content: start; justify-items: start; }
+  .sb__title { font-size: clamp(1.75rem, 3vw, 2.4rem); margin-bottom: 12px; }
+  .sectors { display: grid; grid-template-columns: 1fr 1fr; width: 100%; border-top: 1px solid var(--line); }
+  .sectors li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .brand-grid li {
+    display: grid;
+    place-items: center;
+    min-height: 60px;
+    padding: 8px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink-2);
+    text-align: center;
+    transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .brand-grid li:hover { background: var(--paper-2); color: var(--ink); }
+</style>

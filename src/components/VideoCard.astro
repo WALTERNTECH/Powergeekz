@@ -1,0 +1,79 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  tag?: string;
+}
+const { id, title, tag } = Astro.props;
+---
+<figure class="video-card">
+  <div class="video-card__media">
+    <button type="button" class="video-card__poster" data-video={id} aria-label={`Play video: ${title}`}>
+      <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+      <span class="video-card__play"><Icon name="play" size={22} /></span>
+    </button>
+  </div>
+  <figcaption>
+    {tag && <span class="video-card__tag">{tag}</span>}
+    <span class="video-card__title">{title}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .video-card { display: grid; gap: 14px; }
+  .video-card__media {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--night-2);
+    isolation: isolate;
+  }
+  .video-card__poster { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .video-card__poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.36);
+    transition: transform 1.2s var(--ease-out), filter 0.6s var(--ease);
+    filter: saturate(0.92);
+  }
+  .video-card__poster::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(7, 8, 11, 0) 45%, rgba(7, 8, 11, 0.55));
+  }
+  .video-card__play {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--ink);
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.45s var(--ease), background-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .video-card__play :global(svg) { margin-left: 3px; }
+  .video-card__poster:hover img { transform: scale(1.42); filter: saturate(1); }
+  .video-card__poster:hover .video-card__play { transform: scale(1.06); background: var(--blue); color: #fff; }
+  .video-card :global(.video-card__frame) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  figcaption { display: grid; gap: 4px; }
+  .video-card__tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .video-card__title { font-weight: 500; color: var(--ink); line-height: 1.4; }
+  :global(.section--night) .video-card__title { color: #fff; }
+</style>

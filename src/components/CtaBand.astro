@@ -1,0 +1,60 @@
+---
+import { company, cta } from "../data/site";
+import Button from "./Button.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+}
+const {
+  eyebrow = "Start a project",
+  title = "Tell us what has to stay on.",
+  text = "An engineer visits, surveys the site and the loads that matter, and returns a written proposal. The assessment is free and carries no obligation.",
+} = Astro.props;
+---
+<section class="section section--night cta-band">
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow cta-band__glow" aria-hidden="true"></div>
+  <div class="container cta-band__inner">
+    <div class="cta-band__copy" data-reveal>
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 class="h2">{title}</h2>
+      <p class="lead">{text}</p>
+    </div>
+    <div class="cta-band__actions" data-reveal style="--d:120ms">
+      <Button href={cta.href}>{cta.label}</Button>
+      <div class="cta-band__direct">
+        <a href={company.phones[0].href}><Icon name="phone" size={17} />{company.phones[0].label}</a>
+        <a href={company.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" size={17} />WhatsApp an engineer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band__glow { top: -320px; right: -200px; }
+  .cta-band__inner {
+    display: grid;
+    gap: 40px;
+    align-items: end;
+  }
+  @media (min-width: 960px) {
+    .cta-band__inner { grid-template-columns: 1.3fr 0.7fr; gap: 64px; }
+  }
+  .cta-band__copy { display: grid; gap: 22px; }
+  .cta-band__copy .h2 { font-size: clamp(2.3rem, 5vw, 4rem); letter-spacing: -0.04em; line-height: 1.02; }
+  .cta-band__actions { display: grid; gap: 22px; justify-items: start; }
+  .cta-band__direct { display: grid; gap: 12px; }
+  .cta-band__direct a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 450;
+    transition: color 0.25s var(--ease);
+  }
+  .cta-band__direct a:hover { color: var(--blue-100); }
+  .cta-band__direct :global(svg) { color: var(--night-muted); }
+</style>

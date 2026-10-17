@@ -1,0 +1,580 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Process from "../components/Process.astro";
+import VideoCard from "../components/VideoCard.astro";
+import { cta, clients, brands } from "../data/site";
+import { services } from "../data/services";
+import { videos } from "../data/media";
+import { photo } from "../data/photos";
+
+const imageServices = services.filter((s) => s.id === "solar" || s.id === "storage");
+const compactServices = services.filter((s) => s.id !== "solar" && s.id !== "storage");
+
+const work = [
+  {
+    client: "Gertrude's Children's Hospital",
+    title: "Power across a seventeen-site hospital network",
+    text: "UPS, parallel inverters, grid-tie solar and lithium storage, maintained under a long-term contract from Muthaiga to Kisumu.",
+    tags: ["Healthcare", "Multi-site", "Maintenance"],
+    image: "pw45.jpg",
+    alt: "Hybrid inverter and lithium battery modules installed at a clinic",
+  },
+  {
+    client: "Karen Hospital",
+    title: "UPS supply and major repairs",
+    text: "New 10 kVA units and repairs to 30, 80 and 100 kVA systems.",
+    tags: ["Healthcare", "UPS"],
+    image: "pw54.jpg",
+    alt: "Tower UPS cabinets in a hospital plant room",
+  },
+  {
+    client: "Basco Paints",
+    title: "Solar and inverter installation",
+    text: "Combined generation and backup for a manufacturing floor.",
+    tags: ["Manufacturing", "Solar"],
+    image: "img25.jpg",
+    alt: "Engineer on a tiled roof beside a newly installed solar array",
+  },
+  {
+    client: "Kicheche Camp, Maasai Mara",
+    title: "Solar water heating, maintained",
+    text: "Scheduled servicing at a remote safari camp.",
+    tags: ["Hospitality", "Water heating"],
+    image: "pw40.jpg",
+    alt: "Solar water heater installed in the bush at a safari camp",
+  },
+];
+
+const principles = [
+  {
+    icon: "ruler",
+    title: "Engineered, not sold",
+    text: "Every system starts with a survey of the site and the loads that matter. Equipment is specified to fit, never the other way round.",
+  },
+  {
+    icon: "shield",
+    title: "Genuine equipment",
+    text: "Supplied through authorised channels, so every component carries its full manufacturer warranty.",
+  },
+  {
+    icon: "wrench",
+    title: "Maintained after handover",
+    text: "The team that installs your system is the team that services it, on a schedule, for as long as it runs.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Powergeekz has been our trusted power partner for over 4 years. Professional, responsive and the systems have never failed our critical operations.",
+    role: "Facilities Manager",
+    org: "Gertrude's Children's Hospital",
+  },
+  {
+    quote: "From initial consultation to final commissioning — thorough and highly knowledgeable. Our solar system has significantly reduced our energy bills.",
+    role: "Operations Director",
+    org: "Basco Paints Kenya",
+  },
+  {
+    quote: "Excellent service and genuine authorized products. Our hospital UPS systems have been running flawlessly. Highly recommend Powergeekz.",
+    role: "Technical Team",
+    org: "Karen Hospital, Nairobi",
+  },
+];
+---
+<Base
+  title="Powergeekz Engineering Ltd · Solar, UPS & Backup Power, Kenya"
+  description="Solar, UPS, inverter and backup power systems designed, installed and maintained for hospitals, banks, businesses and homes across Kenya since 2013."
+  path="/"
+>
+  <!-- ── Hero ─────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow hero__glow" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow" data-reveal>Power engineering · Since 2013</span>
+        <h1 class="display" data-reveal style="--d:80ms">Power that holds when the grid doesn't.</h1>
+        <p class="lead" data-reveal style="--d:160ms">
+          Solar, UPS and backup power systems, designed, installed and maintained for hospitals, banks,
+          businesses and homes across Kenya.
+        </p>
+        <div class="hero__actions" data-reveal style="--d:240ms">
+          <Button href={cta.href}>{cta.label}</Button>
+        </div>
+      </div>
+
+      <div class="hero__media" data-reveal="scale" style="--d:120ms">
+        <div class="frame hero__frame">
+          <div class="hero__parallax" data-parallax="0.06">
+            <Image
+              src={photo("pw17.jpg")}
+              alt="Commercial rooftop solar array with access walkways, Nairobi"
+              widths={[640, 960, 1280, 1504]}
+              sizes="(min-width: 1024px) 52vw, 100vw"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="hero__caption">
+            <span class="hero__caption-dot" aria-hidden="true"></span>
+            <span>Gertrude's Children's Hospital, Pangani</span>
+          </div>
+        </div>
+        <div class="frame hero__inset" aria-hidden="true">
+          <Image src={photo("pw20.jpg")} alt="" widths={[320, 480]} sizes="240px" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Clients ──────────────────────────────────────── -->
+  <section class="clients" aria-labelledby="clients-title">
+    <div class="container clients__inner">
+      <p id="clients-title" class="clients__title" data-reveal>Relied on by organisations that cannot afford downtime</p>
+      <ul role="list" class="clients__list">
+        {clients.map((name, i) => <li data-reveal="fade" style={`--d:${i * 50}ms`}>{name}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ── Statement ────────────────────────────────────── -->
+  <section class="section statement">
+    <div class="container">
+      <span class="eyebrow" data-reveal>Who we are</span>
+      <p class="statement__text" data-reveal style="--d:80ms">
+        Since 2013 we have designed, installed and maintained power systems for hospitals, banks, broadcasters,
+        manufacturers and private homes. <span>One team is accountable from the first site survey to the tenth year of service.</span>
+      </p>
+      <div class="principles">
+        {principles.map((p, i) => (
+          <div class="principle" data-reveal style={`--d:${i * 90}ms`}>
+            <span class="principle__icon"><Icon name={p.icon} size={22} /></span>
+            <h3 class="h3">{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </div>
+        ))}
+      </div>
+      <a href="/about.html" class="link-arrow statement__link" data-reveal>About Powergeekz <Icon name="arrow-up-right" /></a>
+    </div>
+  </section>
+
+  <!-- ── Services ─────────────────────────────────────── -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" data-reveal>
+          <span class="eyebrow">Services</span>
+          <h2 class="h2">Every layer of a reliable power system.</h2>
+        </div>
+        <div class="stack" data-reveal style="--d:100ms">
+          <p class="lead">Generation, storage, protection and the maintenance that keeps them working. Specified together, so they behave as one system.</p>
+          <a href="/services.html" class="link-arrow">All services <Icon name="arrow-up-right" /></a>
+        </div>
+      </div>
+
+      <div class="svc-grid">
+        {imageServices.map((s, i) => (
+          <a href={`/services.html#${s.id}`} class="svc-card svc-card--image" data-reveal style={`--d:${i * 90}ms`}>
+            <div class="frame frame--hover svc-card__media">
+              <Image src={photo(s.image!)} alt={s.alt ?? ""} widths={[480, 720, 960]} sizes="(min-width: 900px) 50vw, 100vw" />
+            </div>
+            <div class="svc-card__body">
+              <span class="svc-card__icon"><Icon name={s.icon} size={20} /></span>
+              <h3 class="h3">{s.title}</h3>
+              <p class="muted">{s.short}</p>
+            </div>
+            <span class="svc-card__arrow"><Icon name="arrow-up-right" size={18} /></span>
+          </a>
+        ))}
+        {compactServices.map((s, i) => (
+          <a href={`/services.html#${s.id}`} class="svc-card" data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <span class="svc-card__icon"><Icon name={s.icon} size={20} /></span>
+            <h3 class="h3">{s.title}</h3>
+            <p class="muted">{s.short}</p>
+            <span class="svc-card__arrow"><Icon name="arrow-up-right" size={18} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Selected work ────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" data-reveal>
+          <span class="eyebrow">Selected work</span>
+          <h2 class="h2">Systems in service across Kenya.</h2>
+        </div>
+        <div class="stack" data-reveal style="--d:100ms">
+          <p class="lead">Clinical networks, banking halls, factory floors and safari camps. The work is the best account of what we do.</p>
+          <a href="/portfolio.html" class="link-arrow">View the portfolio <Icon name="arrow-up-right" /></a>
+        </div>
+      </div>
+
+      <div class="work">
+        {work.map((w, i) => (
+          <a href="/portfolio.html" class={`work-card ${i === 0 ? "work-card--feature" : ""}`} data-reveal style={`--d:${(i % 3) * 90}ms`}>
+            <div class="frame frame--hover work-card__media">
+              <Image
+                src={photo(w.image)}
+                alt={w.alt}
+                widths={i === 0 ? [640, 960, 1280] : [400, 640, 800]}
+                sizes={i === 0 ? "(min-width: 1024px) 58vw, 100vw" : "(min-width: 1024px) 30vw, 100vw"}
+              />
+            </div>
+            <div class="work-card__body">
+              <span class="work-card__client">{w.client}</span>
+              <h3 class="h3">{w.title}</h3>
+              <p class="muted">{w.text}</p>
+              <ul role="list" class="work-card__tags">{w.tags.map((t) => <li class="tag">{t}</li>)}</ul>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Credentials ──────────────────────────────────── -->
+  <section class="section section--night creds">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="bg-glow creds__glow" aria-hidden="true"></div>
+    <div class="container creds__grid">
+      <div class="creds__copy">
+        <span class="eyebrow" data-reveal>Credentials</span>
+        <h2 class="h2" data-reveal style="--d:80ms">Registered, authorised and accountable.</h2>
+        <p class="lead" data-reveal style="--d:140ms">
+          Powergeekz is registered with the National Construction Authority of Kenya and supplies equipment through
+          authorised channels, so every installation is regulated and every component is covered by its manufacturer.
+        </p>
+        <ul role="list" class="creds__list">
+          <li data-reveal style="--d:180ms"><Icon name="check" size={18} />NCA-registered contractor, category NCA 4</li>
+          <li data-reveal style="--d:220ms"><Icon name="check" size={18} />Authorised dealer for the equipment we install</li>
+          <li data-reveal style="--d:260ms"><Icon name="check" size={18} />Full manufacturer warranties, honoured locally</li>
+        </ul>
+      </div>
+      <div class="creds__brands" data-reveal style="--d:120ms">
+        <p class="creds__brands-title">Equipment we supply and support</p>
+        <ul role="list">
+          {brands.map((b) => <li>{b}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Process />
+
+  <!-- ── Testimonials ─────────────────────────────────── -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Clients</span>
+        <h2 class="h2">In their words.</h2>
+      </div>
+      <div class="quotes">
+        {testimonials.map((t, i) => (
+          <figure class="quote" data-reveal style={`--d:${i * 100}ms`}>
+            <Icon name="quote" size={28} class="quote__mark" />
+            <blockquote><p>{t.quote}</p></blockquote>
+            <figcaption>
+              <span class="quote__org">{t.org}</span>
+              <span class="quote__role">{t.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Field footage ────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="stack" data-reveal>
+          <span class="eyebrow">From the field</span>
+          <h2 class="h2">Unedited footage from site.</h2>
+        </div>
+        <div class="stack" data-reveal style="--d:100ms">
+          <p class="lead">Installations as they happen, recorded by the engineers doing the work.</p>
+          <a href="/documentaries.html" class="link-arrow">All documentaries <Icon name="arrow-up-right" /></a>
+        </div>
+      </div>
+      <div class="videos">
+        {videos.slice(0, 4).map((v, i) => (
+          <div data-reveal style={`--d:${i * 90}ms`}><VideoCard {...v} /></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .stack { display: grid; gap: 18px; align-content: start; justify-items: start; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(40px, 6vw, 88px) 0 clamp(64px, 8vw, 112px);
+  }
+  .hero__glow { top: -360px; left: -260px; }
+  .hero__grid { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 1024px) {
+    .hero__grid { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: 72px; }
+  }
+  .hero__copy { display: grid; gap: 28px; justify-items: start; }
+  .hero__copy .display { max-width: 11ch; }
+  .hero__copy .lead { max-width: 46ch; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 6px; }
+
+  .hero__media { position: relative; padding: 0 0 36px 0; }
+  .hero__frame { aspect-ratio: 4 / 3.15; box-shadow: var(--shadow-lg); }
+  @media (min-width: 1024px) {
+    .hero__media { padding: 0 0 48px 48px; }
+    .hero__frame { aspect-ratio: 4 / 4.3; }
+  }
+  .hero__parallax { position: absolute; inset: -6% 0; }
+  .hero__parallax :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .hero__caption {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100% - 32px);
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .hero__caption-dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 4px rgba(26, 99, 255, 0.18);
+  }
+  .hero__inset {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 34%;
+    aspect-ratio: 1;
+    border: 6px solid #fff;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  @media (min-width: 1024px) { .hero__inset { display: block; } }
+
+  /* Clients */
+  .clients { border-block: 1px solid var(--line); }
+  .clients__inner {
+    display: grid;
+    gap: 28px;
+    padding-block: clamp(36px, 5vw, 56px);
+  }
+  @media (min-width: 1024px) {
+    .clients__inner { grid-template-columns: 220px 1fr; gap: 48px; align-items: center; }
+  }
+  .clients__title { font-size: 0.86rem; color: var(--muted); line-height: 1.5; max-width: 26ch; }
+  .clients__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 28px;
+  }
+  @media (min-width: 720px) { .clients__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .clients__list li {
+    font-family: var(--font-display);
+    font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+    font-weight: 550;
+    letter-spacing: -0.02em;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+
+  /* Statement */
+  .statement .container { display: grid; gap: 32px; }
+  .statement__text {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.6vw, 3rem);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 30ch;
+    text-wrap: pretty;
+  }
+  .statement__text span { color: var(--subtle); }
+  .principles {
+    display: grid;
+    gap: 36px;
+    margin-top: clamp(16px, 4vw, 40px);
+    padding-top: clamp(32px, 4vw, 48px);
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 820px) { .principles { grid-template-columns: repeat(3, 1fr); gap: 48px; } }
+  .principle { display: grid; gap: 14px; align-content: start; }
+  .principle__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--blue-50);
+    color: var(--blue);
+  }
+  .statement__link { justify-self: start; }
+
+  /* Services */
+  .svc-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 680px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) {
+    .svc-grid { grid-template-columns: repeat(6, 1fr); }
+    .svc-card--image { grid-column: span 3; }
+    .svc-card:not(.svc-card--image) { grid-column: span 2; }
+  }
+  .svc-card {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid var(--line);
+    transition: border-color 0.35s var(--ease), box-shadow 0.45s var(--ease), transform 0.45s var(--ease);
+  }
+  .svc-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow); transform: translateY(-3px); }
+  .svc-card .h3 { padding-right: 36px; }
+  .svc-card--image { padding: 10px; gap: 0; }
+  .svc-card__media { aspect-ratio: 16 / 9.5; border-radius: 16px; }
+  .svc-card__body { display: grid; gap: 14px; padding: 22px 18px 18px; }
+  .svc-card__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: var(--paper-2);
+    color: var(--ink);
+    transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
+  }
+  .svc-card:hover .svc-card__icon { background: var(--blue); color: #fff; }
+  .svc-card__arrow {
+    position: absolute;
+    right: 24px;
+    bottom: 26px;
+    color: var(--subtle);
+    transition: color 0.3s var(--ease), transform 0.4s var(--ease);
+  }
+  .svc-card:hover .svc-card__arrow { color: var(--blue); transform: translate(2px, -2px); }
+  .svc-card--image .svc-card__arrow { bottom: 28px; right: 28px; }
+
+  /* Work */
+  .work { display: grid; gap: 20px; }
+  @media (min-width: 720px) { .work { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) {
+    .work { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .work-card--feature { grid-column: 1 / -1; grid-template-columns: 1.45fr 1fr; align-items: center; gap: 48px; }
+    .work-card--feature .work-card__media { aspect-ratio: 16 / 10; }
+    .work-card--feature .h3 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); }
+  }
+  .work-card { display: grid; gap: 22px; align-content: start; }
+  .work-card__media { aspect-ratio: 4 / 3; }
+  .work-card__body { display: grid; gap: 12px; justify-items: start; }
+  .work-card__client {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .work-card .h3 { transition: color 0.3s var(--ease); }
+  .work-card:hover .h3 { color: var(--blue-700); }
+  .work-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+  /* Credentials */
+  .creds__glow { bottom: -380px; right: -220px; }
+  .creds__grid { display: grid; gap: 56px; align-items: center; }
+  @media (min-width: 1024px) { .creds__grid { grid-template-columns: 1fr 1fr; gap: 88px; } }
+  .creds__copy { display: grid; gap: 24px; justify-items: start; }
+  .creds__list { display: grid; gap: 14px; margin-top: 8px; }
+  .creds__list li { display: flex; gap: 12px; align-items: flex-start; color: #e7eaf0; }
+  .creds__list :global(svg) { flex: none; margin-top: 3px; color: var(--blue); }
+  .creds__brands {
+    border: 1px solid var(--night-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 3vw, 36px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+  }
+  .creds__brands-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .creds__brands ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--night-line);
+    border-left: 1px solid var(--night-line);
+  }
+  .creds__brands li {
+    display: grid;
+    place-items: center;
+    min-height: 64px;
+    padding: 10px;
+    border-right: 1px solid var(--night-line);
+    border-bottom: 1px solid var(--night-line);
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: rgba(255, 255, 255, 0.78);
+    text-align: center;
+    transition: color 0.3s var(--ease), background-color 0.3s var(--ease);
+  }
+  .creds__brands li:hover { color: #fff; background: rgba(255, 255, 255, 0.04); }
+
+  /* Testimonials */
+  .quotes { display: grid; gap: 16px; }
+  @media (min-width: 900px) { .quotes { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+  .quote {
+    display: grid;
+    gap: 22px;
+    align-content: space-between;
+    padding: clamp(26px, 3vw, 36px);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid var(--line);
+  }
+  .quote :global(.quote__mark) { color: var(--blue); }
+  .quote blockquote p {
+    font-family: var(--font-display);
+    font-size: 1.16rem;
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .quote figcaption { display: grid; gap: 2px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .quote__org { font-weight: 550; color: var(--ink); }
+  .quote__role { font-size: 0.9rem; color: var(--muted); }
+
+  /* Videos */
+  .videos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  @media (min-width: 900px) { .videos { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+</style>
